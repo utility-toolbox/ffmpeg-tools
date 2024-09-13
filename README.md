@@ -3,17 +3,23 @@
 # ffmpeg-tools
 ffmpeg-tools offers helpful ffmpeg commands
 
+<!-- TOC -->
+* [ffmpeg-tools](#ffmpeg-tools)
+  * [Installation](#installation)
+  * [Usage](#usage)
+  * [Shell-Completion](#shell-completion)
+<!-- TOC -->
+
 ## Installation
 
 ```bash
-sudo apt install python3
+sudo apt install python3 python3-venv git pipenv
 ```
 
 ```bash
 git clone https://github.com/utility-toolbox/ffmpeg-tools  # get code
 cd ffmpeg-tools
 python3 -m venv .venv  # virtual-environment
-pip3 install pipenv  # install pipenv-manager
 pipenv install  # install dependencies
 echo "export \"\$PATH:`pwd`\"" >> ~/.bashrc  # add to path
 source ~/.bashrc  # or restart your shell
