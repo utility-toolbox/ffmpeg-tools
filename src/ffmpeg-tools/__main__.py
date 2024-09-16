@@ -44,7 +44,7 @@ def configure_logging():
     import logging
     logging.basicConfig(
         level=logging.INFO,
-        format="{asctime} | {levelname:.3} | {message}",
+        format="{levelname:.3} | {message}",
         style="{",
         handlers=[logging.StreamHandler()]
     )
