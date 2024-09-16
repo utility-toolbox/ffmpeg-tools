@@ -33,7 +33,7 @@ chapters_split_parser.add_argument('-o', '--output', dest="output", type=types.d
 
 concat_parser = subparsers.add_parser('concat')
 concat_parser.set_defaults(__cmd__=concat.__cmd__)
-concat_parser.add_argument('-i', '--input', dest="input_files", type=types.file, action='extend', nargs=ap.ONE_OR_MORE)
+concat_parser.add_argument('-i', '--input', dest="input_videos", type=types.file, action='extend', nargs=ap.ONE_OR_MORE)
 concat_parser.add_argument('-o', '--output', dest="output", type=types.file)
 
 
