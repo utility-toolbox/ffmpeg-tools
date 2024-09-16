@@ -28,7 +28,7 @@ source ~/.bashrc  # or restart your shell
 ## Usage
 
 ```bash
-usage: ffmpeg-tools [-h] [-v] {chapters-split,concat} ...
+usage: ffmpeg-tools [-h] [-v] {chapters-split,concat,stack} ...
 ```
 
 ## Shell-Completion
