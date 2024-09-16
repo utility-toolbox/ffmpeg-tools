@@ -2,11 +2,8 @@
 r"""
 
 """
-import shlex
 import logging
-import subprocess as sp
 from pathlib import Path
-
 from .. import core
 
 
@@ -31,9 +28,6 @@ def __cmd__(input_video: str, output: str) -> None:
         logging.info(f"Extracting chapter {chapter.tags.get('title', i+1)!r}")
         current_output = output.with_name(output.name % (i + 1)).absolute()
         args = [
-            core.executables.ffmpeg_executable(), '-hide_banner',
-            '-loglevel', "warning",
-            '-y',  # overwrite if existing output
             '-i', f"file:{input_video}",  # input file
             '-ss', f"{chapter.start_time}",  # start-time
             '-to', f"{chapter.end_time}",  # end-time
@@ -41,7 +35,6 @@ def __cmd__(input_video: str, output: str) -> None:
             '-c', "copy",  # copy (don't re-encode)
             f"file:{current_output}",  # output
         ]
-        logging.info(shlex.join(args))
-        sp.run(args, check=True)
+        core.ffmpeg.ffmpeg(args)
     else:
         logging.info("Chapter-splitting completed")

@@ -2,11 +2,9 @@
 r"""
 
 """
-import shlex
 import logging
 import tempfile
 import typing as t
-import subprocess as sp
 from pathlib import Path
 from .. import core
 
@@ -55,17 +53,13 @@ def __cmd__(input_videos: t.List[str], output: str) -> None:
         metadata.flush()
 
         args = [
-            core.executables.ffmpeg_executable(), '-hide_banner',
-            '-loglevel', "warning",
-            '-y',
-            '-safe', "0",
-            '-f', "concat",
-            '-i', f"file:{input_spec.name}",
-            '-i', f"file:{metadata.name}",
-            '-map', "0",
-            '-map_metadata', "0",
-            '-c', "copy",
-            f"file:{output}",
+            '-safe', "0",  # allow full path in the playlist
+            '-f', "concat",  # concatenate from input
+            '-i', f"file:{input_spec.name}",  # add playlist
+            '-i', f"file:{metadata.name}",  # add metadata
+            '-map', "0",  # copy all audio and subtitle streams
+            '-map_metadata', "0",  # copy metadata
+            '-c', "copy",  # copy encoding
+            f"file:{output}",  # output
         ]
-        logging.info(shlex.join(args))
-        sp.run(args, check=True, capture_output=True, text=True)
+        core.ffmpeg.ffmpeg(args)

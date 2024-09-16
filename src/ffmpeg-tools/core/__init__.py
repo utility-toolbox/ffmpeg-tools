@@ -5,4 +5,5 @@ r"""
 from . import (
     ffprobe,
     executables,
+    ffmpeg,
 )
