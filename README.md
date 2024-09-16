@@ -33,6 +33,16 @@ usage: ffmpeg-tools [-h] [-v] {chapters-split,concat} ...
 
 ## Shell-Completion
 
+To get temporary shell completion (for your running shell-instance)
 ```bash
 eval "$(ffmpeg-tools --shell-completion)"
 ```
+For permanent shell completion you can add the line above to `~/.bashrc`.
+This would increase your shell startup time by a good margin so it's not recommended.
+The recommended way would be to pipe the completion-script to a file and sourcing that.
+```bash
+mkdir -p "~/.bash_completion.d/"
+ffmpeg-tools --shell-completion > "~/.bash_completion.d/ffmpeg-tools.completion.sh"
+echo "source \"~/.bash_completion.d/ffmpeg-tools.completion.sh\"" >> ~/.bashrc
+```
+The middle-command has to be redone when updating this project.
