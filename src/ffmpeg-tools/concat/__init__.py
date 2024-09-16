@@ -60,6 +60,6 @@ def __cmd__(input_videos: t.List[str], output: str) -> None:
             '-map', "0",  # copy all audio and subtitle streams
             '-map_metadata', "0",  # copy metadata
             '-c', "copy",  # copy encoding
-            f"file:{output}",  # output
+            f"file:{output!s}",  # output
         ]
         core.ffmpeg.ffmpeg(args)

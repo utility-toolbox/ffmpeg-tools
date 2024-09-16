@@ -28,12 +28,12 @@ def __cmd__(input_video: str, output: str) -> None:
         logging.info(f"Extracting chapter {chapter.tags.get('title', i+1)!r}")
         current_output = output.with_name(output.name % (i + 1)).absolute()
         args = [
-            '-i', f"file:{input_video}",  # input file
+            '-i', f"file:{input_video!s}",  # input file
             '-ss', f"{chapter.start_time}",  # start-time
             '-to', f"{chapter.end_time}",  # end-time
             '-map', "0",  # keep all streams
             '-c', "copy",  # copy (don't re-encode)
-            f"file:{current_output}",  # output
+            f"file:{current_output!s}",  # output
         ]
         core.ffmpeg.ffmpeg(args)
     else:

@@ -18,6 +18,7 @@ def ffmpeg(args: t.List[str]) -> sp.CompletedProcess:
         '-hide_banner',
         '-loglevel', "warning",
         '-y',  # overwrite if existing output
-    ] + args
+        *args,
+    ]
     logging.info(shlex.join(args))
     return sp.run(args, check=True, capture_output=True, text=True)
