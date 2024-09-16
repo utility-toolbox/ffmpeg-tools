@@ -2,8 +2,8 @@
 r"""
 
 """
-import sys
 import shlex
+import logging
 import tempfile
 import typing as t
 import subprocess as sp
@@ -11,11 +11,12 @@ from pathlib import Path
 from .. import core
 
 
-def __cmd__(input_files: t.List[str], output: str, no_chapters: bool):
+def __cmd__(input_files: t.List[str], output: str) -> None:
     input_files: t.List[Path] = [
         Path(input_file).absolute()
         for input_file in input_files
     ]
+    logging.debug(f"Input-Videos: {', '.join(map(str, input_files))}")
     missing = [i for i in input_files if not i.is_file()]
     if missing:
         raise FileNotFoundError(', '.join(map(str, missing)))
@@ -29,6 +30,8 @@ def __cmd__(input_files: t.List[str], output: str, no_chapters: bool):
 
     with tempfile.NamedTemporaryFile(mode='w+', suffix=".txt") as input_spec, \
             tempfile.NamedTemporaryFile(mode='w+', suffix=".txt", delete=False) as metadata:
+
+        logging.info("Generating playlist and chapter-meta")
         metadata.write(f";FFMETADATA1\n")
         current_position = 0
         for i, (input_file, video_info) in enumerate(zip(input_files, video_infos)):
@@ -37,17 +40,17 @@ def __cmd__(input_files: t.List[str], output: str, no_chapters: bool):
             safe_path = str(input_file).replace(r"'", r"\'")
             input_spec.write(f"file '{safe_path}'\n")
 
-            if not no_chapters:
-                main_stream = video_info.main_stream
-                start: int = current_position
-                end: int = start + round(video_info.format.duration / main_stream.time_base)
-                metadata.write(f"\n")
-                metadata.write(f"[CHAPTER]\n")
-                metadata.write(f"TIMEBASE={main_stream.time_base}\n")
-                metadata.write(f"START={start}\n")
-                metadata.write(f"END={end}\n")
-                metadata.write(f"title=Chapter {i+1}\n")
-                current_position = end
+            main_stream = video_info.main_stream
+            start: int = current_position
+            end: int = start + round(video_info.format.duration / main_stream.time_base)
+            metadata.write(f"\n")
+            metadata.write(f"[CHAPTER]\n")
+            metadata.write(f"TIMEBASE={main_stream.time_base}\n")
+            metadata.write(f"START={start}\n")
+            metadata.write(f"END={end}\n")
+            metadata.write(f"title=Chapter {i+1}\n")
+            current_position = end
+
         input_spec.flush()
         metadata.flush()
 
@@ -64,8 +67,5 @@ def __cmd__(input_files: t.List[str], output: str, no_chapters: bool):
             '-c', "copy",
             f"file:{output}",
         ]
-        print(shlex.join(args))
-        try:
-            sp.run(args, check=True, capture_output=True, text=True)
-        except sp.CalledProcessError as e:
-            print(e.stderr, file=sys.stderr)
+        logging.info(shlex.join(args))
+        sp.run(args, check=True, capture_output=True, text=True)

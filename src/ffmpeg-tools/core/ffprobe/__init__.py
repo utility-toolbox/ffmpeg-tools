@@ -4,6 +4,7 @@ r"""
 """
 import json
 import shlex
+import logging
 import subprocess as sp
 from pathlib import Path
 from ..executables import ffprobe_executable
@@ -17,7 +18,9 @@ def ffprobe(file: Path) -> FFProbe:
         '-of', 'json',
         f"{file}",
     ]
-    print(shlex.join(args))
+    logging.info(shlex.join(args))
     completed_process = sp.run(args, check=True, capture_output=True, text=True)
+    logging.debug("Parsing ffprobe result to python objects")
     result = json.loads(completed_process.stdout)
+    logging.debug("Converting ffprobe result to model")
     return FFProbe.model_validate(result)
