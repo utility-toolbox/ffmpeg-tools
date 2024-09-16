@@ -13,7 +13,7 @@ ffmpeg-tools offers helpful ffmpeg commands
 ## Installation
 
 ```bash
-sudo apt install python3 python3-venv git pipenv
+sudo apt install ffmpeg python3 python3-venv git pipenv
 ```
 
 ```bash
