@@ -67,7 +67,7 @@ def main(argv=None, reraise: bool = False):
     debug = args.pop('debug')
     if debug:
         logging.getLogger().setLevel(logging.DEBUG)
-    logging.debug(f"Running ffmpeg-tools command: {cmd} with {args}")
+    logging.debug(f"Running ffmpeg-tools command: {cmd.__module__} with {args}")
     try:
         return cmd(**args)
     except Exception as error:

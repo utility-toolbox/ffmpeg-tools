@@ -22,7 +22,7 @@ def parse_fraction(value: str) -> t.Optional[Fraction]:
 
 
 class FFProbe(pydantic.BaseModel):
-    streams: t.List[t.Union['VideoStream', 'AudioStream', 'SubtitleStream']]
+    streams: t.List[t.Union['VideoStream', 'AudioStream', 'SubtitleStream', 'DataStream']]
     chapters: t.List['Chapter']
     format: 'Format'
 
@@ -50,7 +50,7 @@ class VideoStream(pydantic.BaseModel, arbitrary_types_allowed=True):
     index: int
     codec_name: str
     codec_long_name: str
-    profile: str
+    profile: str = None
     codec_type: t.Literal['video']
     codec_tag_string: str
     codec_tag: str
@@ -58,15 +58,20 @@ class VideoStream(pydantic.BaseModel, arbitrary_types_allowed=True):
     height: int
     coded_width: int
     coded_height: int
-    closed_captions: int
+    closed_captions: bool
     has_b_frames: bool
-    sample_aspect_ratio: str
-    display_aspect_ratio: str
+    sample_aspect_ratio: str = None
+    display_aspect_ratio: str = None
     pix_fmt: str
     level: int
-    color_range: str
-    chroma_location: str
-    field_order: str
+    color_range: str = None
+    color_space: str = None
+    color_transfer: str = None
+    color_primaries: str = None
+    chroma_location: str = None
+    is_avc: bool = None
+    nal_length_size: int = None
+    field_order: str = None
     refs: int
     r_frame_rate: Fraction
     avg_frame_rate: Fraction
@@ -74,7 +79,7 @@ class VideoStream(pydantic.BaseModel, arbitrary_types_allowed=True):
     start_pts: int
     start_time: float
     disposition: 'Disposition'
-    tags: Tags
+    tags: Tags = pydantic.Field(default_factory=dict)
 
     @pydantic.field_validator('r_frame_rate', 'avg_frame_rate', 'time_base', mode='before')
     def parse_fractions(cls, v: str) -> Fraction:
@@ -93,11 +98,11 @@ class AudioStream(pydantic.BaseModel, arbitrary_types_allowed=True):
     channels: int
     channel_layout: str
     bits_per_sample: int
-    dmix_mode: int
-    ltrt_cmixlev: float
-    ltrt_surmixlev: float
-    loro_cmixlev: float
-    loro_surmixlev: float
+    dmix_mode: int = None
+    ltrt_cmixlev: float = None
+    ltrt_surmixlev: float = None
+    loro_cmixlev: float = None
+    loro_surmixlev: float = None
     r_frame_rate: Fraction
     avg_frame_rate: Fraction
     time_base: Fraction
@@ -134,6 +139,15 @@ class SubtitleStream(pydantic.BaseModel, arbitrary_types_allowed=True):
     @pydantic.field_validator('r_frame_rate', 'avg_frame_rate', 'time_base', mode='before')
     def parse_fractions(cls, v: str) -> Fraction:
         return parse_fraction(v)
+
+
+class DataStream(pydantic.BaseModel):
+    index: int
+    codec_name: str
+    codec_long_name: str
+    codec_type: t.Literal['data']
+    codec_tag_string: str
+    codec_tag: str
 
 
 class Chapter(pydantic.BaseModel, arbitrary_types_allowed=True):

@@ -23,4 +23,5 @@ def ffprobe(file: Path) -> FFProbe:
     logging.debug("Parsing ffprobe result to python objects")
     result = json.loads(completed_process.stdout)
     logging.debug("Converting ffprobe result to model")
+    logging.debug(f"{result}")
     return FFProbe.model_validate(result)
