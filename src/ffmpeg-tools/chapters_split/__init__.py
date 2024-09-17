@@ -14,8 +14,8 @@ def __cmd__(input_video: str, output: str) -> None:
         raise FileNotFoundError(input_video)
 
     output = Path(output).absolute()
-    if "%d" not in output.name:
-        output = output / ("%d" + input_video.suffix)
+    if not contains_valid_interpolation_pattern(output.name):
+        output = output / ("%s" + input_video.suffix)
     logging.debug(f"Output-Path: {output!s}")
 
     logging.debug(f"Ensuring output directory: {output.parent!s}")
@@ -26,7 +26,8 @@ def __cmd__(input_video: str, output: str) -> None:
 
     for i, chapter in enumerate(video_info.chapters):
         logging.info(f"Extracting chapter {chapter.tags.get('title', i+1)!r}")
-        current_output = output.with_name(output.name % (i + 1)).absolute()
+        new_name = format_name(output.name, title=chapter.tags.get('title', None), chapter=i+1)
+        current_output = output.with_name(new_name).absolute()
         args = [
             '-i', f"file:{input_video!s}",  # input file
             '-ss', f"{chapter.start_time}",  # start-time
@@ -38,3 +39,13 @@ def __cmd__(input_video: str, output: str) -> None:
         core.ffmpeg.ffmpeg(args)
     else:
         logging.info("Chapter-splitting completed")
+
+
+def contains_valid_interpolation_pattern(name: str) -> bool:
+    return (name.count("%d") + name.count("%s")) == 1
+
+
+def format_name(name: str, title: str, chapter: int):
+    if "%s" in name:
+        return (name % title) if title else (name % f"Chapter {chapter}")
+    return name % chapter
