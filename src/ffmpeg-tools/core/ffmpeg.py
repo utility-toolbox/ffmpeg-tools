@@ -16,7 +16,7 @@ def ffmpeg(args: t.List[str]) -> sp.CompletedProcess:
     args = [
         ffmpeg_executable(),
         '-hide_banner',
-        '-loglevel', "warning",
+        '-loglevel', "info",
         '-y',  # overwrite if existing output
         *args,
     ]

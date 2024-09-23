@@ -20,6 +20,7 @@ def __cmd__(input_videos: t.List[str], output: str) -> None:
         raise FileNotFoundError(', '.join(map(str, missing)))
 
     output: Path = Path(output).absolute()
+    logging.debug(f"Output: {output!s}")
 
     video_infos = [
         core.ffprobe.ffprobe(file=input_file)

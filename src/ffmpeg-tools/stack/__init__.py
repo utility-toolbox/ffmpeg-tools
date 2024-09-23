@@ -23,6 +23,7 @@ def __cmd__(input_videos: t.List[str], output: str, direction: 'Direction') -> N
         input_videos.reverse()
 
     output: Path = Path(output).absolute()
+    logging.debug(f"Output: {output!s}")
 
     stack_mode = "hstack" if direction in {Direction.LTR, Direction.RTL} else "vstack"
 

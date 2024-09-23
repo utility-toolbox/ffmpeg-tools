@@ -2,11 +2,10 @@
 r"""
 
 """
-from fractions import Fraction
-
 import pydantic
-from pydantic import types
 import typing as t
+from pydantic import types
+from fractions import Fraction
 
 
 __all__ = ['FFProbe']
@@ -146,6 +145,15 @@ class DataStream(pydantic.BaseModel):
     codec_name: str
     codec_long_name: str
     codec_type: t.Literal['data']
+    codec_tag_string: str
+    codec_tag: str
+
+
+class AttachmentStream(pydantic.BaseModel):
+    index: int
+    codec_name: str
+    codec_long_name: str
+    codec_type: t.Literal['attachment']
     codec_tag_string: str
     codec_tag: str
 
