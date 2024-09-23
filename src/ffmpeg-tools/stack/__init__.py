@@ -1,6 +1,8 @@
 # -*- coding=utf-8 -*-
 r"""
+Used to stack multiple videos next to one another.
 
+If the videos have different durations. The resulting video will end with the longest
 """
 import enum
 import logging

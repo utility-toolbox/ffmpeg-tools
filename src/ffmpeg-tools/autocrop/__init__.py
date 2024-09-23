@@ -1,6 +1,8 @@
 # -*- coding=utf-8 -*-
 r"""
+Detect areas of the video that can be cropped out and does exactly that.
 
+- use '-' as output to only print the auto-detected crop-area
 """
 import re
 import logging
@@ -8,7 +10,7 @@ from pathlib import Path
 from .. import core
 
 
-def __cmd__(input_video: str, output: str) -> None:
+def __cmd__(input_video: str, output: str, fast: bool) -> None:
     input_video = Path(input_video).absolute()
     logging.debug(f"Input-Video: {input_video!s}")
     if not input_video.is_file():
@@ -22,7 +24,10 @@ def __cmd__(input_video: str, output: str) -> None:
     args = [
         '-i', f"{input_video!s}",
         '-vf', "cropdetect=24:16:0",
-        '-t', "60",  # only detect based on the first minute (is faster)
+        *(
+            ('-t', "60")  # only detect based on the first minute (is faster)
+            if fast else ()
+        ),
         '-f', "null",
         '-',
     ]

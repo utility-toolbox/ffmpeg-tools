@@ -1,6 +1,6 @@
 # -*- coding=utf-8 -*-
 r"""
-
+Used to concatenate video files into a single video file.
 """
 import logging
 import tempfile

@@ -1,6 +1,9 @@
 # -*- coding=utf-8 -*-
 r"""
+splits a video by its chapters.
 
+- use '%s' in the output-filename to replace that with the chapter-name
+- use '%d' in the output-filename to replace that with the chapter-index
 """
 import logging
 from pathlib import Path

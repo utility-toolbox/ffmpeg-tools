@@ -1,6 +1,6 @@
 # -*- coding=utf-8 -*-
 r"""
-
+Uses configured ffprobe to print all information about a video in JSON-format.
 """
 import subprocess as sp
 from pathlib import Path

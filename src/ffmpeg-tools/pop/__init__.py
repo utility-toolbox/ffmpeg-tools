@@ -1,6 +1,21 @@
 # -*- coding=utf-8 -*-
 r"""
-ffmpeg-tools pop -i input.mp4 -o output.mp4 subtitle:3 data
+Used to remove parts from a video
+
+- 'stream:{index}' - removes a stream by index
+- 'video' - removes all video streams
+- 'video:{index}' - removes a video stream by index
+- 'audio' - removes all audio streams
+- 'audio:{index}' - removes an audio stream by index
+- 'subtitle' - removes all subtitle streams
+- 'subtitle:{index}' - removes a subtitle stream by index
+- 'data' - removes all data streams
+- 'data:{index}' - removes a data stream by index
+- 'attachment' - removes all attachment streams
+- 'attachment:{index}' - removes an attachment stream by index
+- 'tag:{name}' - remove a tag from the metadata
+
+e.g. ffmpeg-tools pop -i input.mp4 -o output.mp4 subtitle:3 data
 """
 import logging
 import typing as t
