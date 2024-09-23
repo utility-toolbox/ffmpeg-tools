@@ -6,7 +6,12 @@ import logging
 import argparse as ap
 from shell_complete import ShellCompleteAction, types
 from . import __version__
-from . import chapters_split as cmd_chapters_split, concat as cmd_concat, stack as cmd_stack
+from . import (
+    chapters_split as cmd_chapters_split,
+    concat as cmd_concat,
+    probe as cmd_probe,
+    stack as cmd_stack,
+)
 
 
 parser = ap.ArgumentParser(prog='ffmpeg-tools', description=__doc__, formatter_class=ap.ArgumentDefaultsHelpFormatter)
@@ -25,7 +30,7 @@ subparsers = parser.add_subparsers()
 chapters_split_parser = subparsers.add_parser('chapters-split')
 chapters_split_parser.set_defaults(__cmd__=cmd_chapters_split.__cmd__)
 chapters_split_parser.add_argument('-i', '--input', dest="input_video", type=types.file)
-chapters_split_parser.add_argument('-o', '--output', dest="output", type=types.directory)
+chapters_split_parser.add_argument('-o', '--output', dest="output", type=types.directory, default="./")
 
 
 #
@@ -35,6 +40,14 @@ concat_parser = subparsers.add_parser('concat')
 concat_parser.set_defaults(__cmd__=cmd_concat.__cmd__)
 concat_parser.add_argument('-i', '--input', dest="input_videos", type=types.file, action='extend', nargs=ap.ONE_OR_MORE)
 concat_parser.add_argument('-o', '--output', dest="output", type=types.file)
+
+
+#
+
+
+probe_parser = subparsers.add_parser('probe', help=cmd_probe.__doc__)
+probe_parser.set_defaults(__cmd__=cmd_probe.__cmd__)
+probe_parser.add_argument('input_video', type=types.file)
 
 
 #
