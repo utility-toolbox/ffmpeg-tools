@@ -7,6 +7,7 @@ import argparse as ap
 from shell_complete import ShellCompleteAction, types
 from . import __version__
 from . import (
+    autocrop as cmd_autocrop,
     chapters_split as cmd_chapters_split,
     concat as cmd_concat,
     pop as cmd_pop,
@@ -23,6 +24,15 @@ parser.add_argument('--debug', action='store_true',
 parser.add_argument('--shell-completion', action=ShellCompleteAction,
                     help="Generates an auto-complete shell script. Use with `eval \"$(ffmpeg-tools --shell-completion)\"`")
 subparsers = parser.add_subparsers()
+
+
+#
+
+
+autocrop_parser = subparsers.add_parser('autocrop', help=cmd_autocrop.__doc__)
+autocrop_parser.set_defaults(__cmd__=cmd_autocrop.__cmd__)
+autocrop_parser.add_argument('-i', '--input', dest="input_video", type=types.file)
+autocrop_parser.add_argument('-o', '--output', dest="output", type=types.file)
 
 
 #
