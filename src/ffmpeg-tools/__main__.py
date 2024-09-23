@@ -9,6 +9,7 @@ from . import __version__
 from . import (
     chapters_split as cmd_chapters_split,
     concat as cmd_concat,
+    pop as cmd_pop,
     probe as cmd_probe,
     stack as cmd_stack,
 )
@@ -40,6 +41,16 @@ concat_parser = subparsers.add_parser('concat')
 concat_parser.set_defaults(__cmd__=cmd_concat.__cmd__)
 concat_parser.add_argument('-i', '--input', dest="input_videos", type=types.file, action='extend', nargs=ap.ONE_OR_MORE)
 concat_parser.add_argument('-o', '--output', dest="output", type=types.file)
+
+
+#
+
+
+pop_parser = subparsers.add_parser('pop', help=cmd_pop.__doc__)
+pop_parser.set_defaults(__cmd__=cmd_pop.__cmd__)
+pop_parser.add_argument('-i', '--input', dest="input_video", type=types.file)
+pop_parser.add_argument('-o', '--output', dest="output", type=types.file)
+pop_parser.add_argument('identifiers', nargs=ap.ONE_OR_MORE)
 
 
 #
