@@ -44,6 +44,8 @@ def __cmd__(input_video: str, output: str, fast: bool) -> None:
     args = [
         '-i', f"{input_video!s}",  # input
         '-map', "0",  # keep all streams
+        '-map_metadata', "0",  # keep all metadata
+        '-map_chapters', "0",  # keep all chapters
         '-vf', f"{crop_dimensions}",  # crop
         '-c:a', "copy",  # avoid re-encoding of audio for teeny tiny performance boost
         '-c:s', "copy",  # avoid re-encoding of subtitles for teeny tiny performance boost

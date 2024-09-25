@@ -34,9 +34,9 @@ def __cmd__(input_video: str, output: str, identifiers: t.List[str]) -> None:
 
     args = [
         '-i', f"{input_video!s}",
-        '-map', "0",  # take all
-        '-map_metadata', "0",
-        '-map_chapters', "0",
+        '-map', "0",  # take all streams
+        '-map_metadata', "0",  # take all metadata
+        '-map_chapters', "0",  # take all chapters
     ]
     for identifier in identifiers:
         head, _, detail = identifier.partition(":")
